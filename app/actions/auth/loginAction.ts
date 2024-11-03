@@ -29,7 +29,7 @@ const session = await getSession();
 session.set("userId", user.id);
 
 
-return redirect("/dashboard", {
+return redirect("/", {
   headers: {
     "Set-Cookie": await commitSession(session),
   },
