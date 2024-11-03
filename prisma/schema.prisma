@@ -20,13 +20,18 @@ model User {
   username String @unique 
   password  String
   email String @unique
-  Post Post[]
+  post Post[]
 }
+
+
 
 model Post{
   id    Int    @id  @default(autoincrement())
   content String @db.VarChar(255)
   userId   Int
-   user     User    @relation(fields: [userId], references: [id])
+  user     User    @relation(fields: [userId], references: [id])
+  created_at DateTime @default(now())
+  image String?
 }
+
 
