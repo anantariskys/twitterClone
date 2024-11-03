@@ -4,8 +4,9 @@ import {prisma } from "~/db.server";
 const getAllPost = async () => {
     const posts = await prisma.post.findMany({
         include:{
-            user:true
-        }
+            user:true,
+     
+        },
     });
     return posts;
 };
