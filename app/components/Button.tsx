@@ -26,7 +26,7 @@ const Button: React.FC<ButtonProps> = ({ children, onClick, variant ,width,type}
     }
 
     return (
-        <button type={type} className={`${width} py-2 px-4 rounded ${className} active:scale-95 transition-all`} onClick={onClick}>
+        <button type={type} className={`${width} h-fit py-2 px-4 rounded ${className} active:scale-95 transition-all`} onClick={onClick}>
             {children}
         </button>
     );
