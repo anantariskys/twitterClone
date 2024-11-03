@@ -1,13 +1,19 @@
-import { data, json } from "@remix-run/node";
-import { prisma } from "~/db.server";
 
-const createPost = async (FormData: FormData, userId: number) => {
-  const content = FormData.get("content")?.toString() || "";
+import { json } from "@remix-run/node";
+import { prisma } from "~/db.server";
+import { uploadImageToFirebase } from "~/utils/firebase";
+
+const createPost = async (formData: FormData, userId: number) => {
+  const content = formData.get("content")?.toString() || "";
+  const imageFile = formData.get("images") as File;
 
   if (!content) {
     return json({ error: "All fields are required" }, { status: 400 });
   }
 
+
+
+  
   const post = await prisma.post.create({
     data: {
       content,
@@ -15,7 +21,7 @@ const createPost = async (FormData: FormData, userId: number) => {
     },
   });
 
-  return json({ message: "Post created successfully",data: post },{ status: 200 });
+  return json({ message: "Post created successfully"}, { status: 200 });
 };
 
 export default createPost;
