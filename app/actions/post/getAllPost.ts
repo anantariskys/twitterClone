@@ -7,6 +7,9 @@ const getAllPost = async () => {
             user:true,
      
         },
+        orderBy:{
+            created_at: "desc"
+        }
     });
     return posts;
 };
