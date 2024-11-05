@@ -36,7 +36,7 @@ const Toast: React.FC<ToastProps> = ({
   return (
     <div
       className={` ${classname}  px-4 py-2 rounded shadow-lg transition-all duration-300 ${toastStyles[type]} ${
-        position ? 'absolute' : 'relative'
+        position ? 'fixed' : 'relative'
       }`}
     >
       <div className="flex items-center">
