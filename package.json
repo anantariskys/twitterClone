@@ -23,6 +23,7 @@
     "react-dom": "^18.2.0"
   },
   "devDependencies": {
+    "@iconify/react": "^5.0.2",
     "@remix-run/dev": "^2.13.1",
     "@types/bcrypt": "^5.0.2",
     "@types/react": "^18.2.20",
