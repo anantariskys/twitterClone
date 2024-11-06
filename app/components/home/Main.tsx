@@ -4,22 +4,7 @@ import Button from "../Button";
 import Toast from "../Toast";
 import TweetCard from "../TweetCard";
 import PostForm from "./PostForm";
-
-interface Post {
-  id: number;
-  content: string;
-  userId: number;
-  user: User;
-  created_at: string;
-  image: string;
-}
-
-interface User {
-  id: number;
-  email: string;
-  username: string;
-  password: string;
-}
+import { Post } from "~/intefaces/post";
 
 interface Props {
   posts: Post[];
