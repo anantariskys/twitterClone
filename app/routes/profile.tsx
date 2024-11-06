@@ -1,18 +1,62 @@
 import { Icon } from "@iconify/react/dist/iconify.js";
+import { json, LoaderFunction, redirect } from "@remix-run/node";
+import { useLoaderData } from "@remix-run/react";
 import React from "react";
+import { getUserFromSession } from "~/auth.server";
 import Button from "~/components/Button";
+import UserPost from "~/components/profile/UserPost";
 import Sidebar from "~/components/Sidebar";
+import {prisma} from "~/db.server";
+import { Post } from "~/intefaces/post";
+import { User } from "~/intefaces/user";
 
+
+export const loader: LoaderFunction = async ({ params, request }) => {
+  const userId = await getUserFromSession(request);
+  if (!userId) {
+    return redirect("/auth/login");
+  }
+  const user = await prisma.user.findUnique({
+    where: { id: userId },
+    include:{
+      _count:true
+
+    }
+  })
+  console.log(user)
+
+  const posts = await prisma.post.findMany({
+    where:{
+      userId: user?.id
+    },
+    include:{
+      user:true
+    }
+  })
+  return json({ user ,posts });
+}
 const profile = () => {
+
+
+  interface LoaderData {
+    user: User;
+    posts: Post[];
+  }
+
+
+  
+
+  const { user,posts } = useLoaderData<LoaderData>();
+ 
   return (
     <div className="text-primary container flex ">
       <Sidebar />
       <main className="w-full">
-        <section className="p-4 sticky top-0 border-b flex items-center gap-4">
+        <section className="p-4 sticky top-0 bg-white z-50 border-b flex items-center gap-4">
           <Icon icon={"weui:back-filled"} className="text-2xl font-bold" />
           <div>
-            <h3 className="font-semibold">ananta risky susanto</h3>
-            <small className="text-gray-500">0 Postingan</small>
+            <h3 className="font-semibold">{user.username}</h3>
+            <small className="text-gray-500">{user._count?.post} Postingan</small>
           </div>
         </section>
         <section className="w-full max-h-52 h-full relative">
@@ -33,19 +77,17 @@ const profile = () => {
           </div>
           <div className="space-y-4">
             <div>
-              <h1 className="text-2xl font-semibold">Ananta risky susanto</h1>
-              <p>@susanto_ananta</p>
+              <h1 className="text-2xl font-semibold">{user.email}</h1>
+              <p>@{user.username}</p>
             </div>
             <div className="flex gap-4">
-              <p>0 Mengikuti</p>
-              <p>0 Pengikut</p>
+              <p>{user._count?.following}  Followers</p>
+              <p>{user._count?.followers} Following</p>
             </div>
           </div>
           <h3 className="font-semibold">Postingan</h3>
         </section>
-        <section>
-          ini section postingan
-        </section>
+        <UserPost posts={posts}  />
         
       </main>
     </div>
