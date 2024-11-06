@@ -1,4 +1,6 @@
 import React from "react";
+import { Post } from "~/intefaces/post";
+
 
 const getRelativeTime = (dateString: string) => {
   const postDate = new Date(dateString);
@@ -20,34 +22,20 @@ const getRelativeTime = (dateString: string) => {
   }
 };
 
-interface Post {
-  id: number;
-  content: string;
-  userId: number;
-  user: User;
-  created_at: string;
-  image: string;
-}
 
-interface User {
-  id: number;
-  email: string;
-  username: string;
-  password: string;
-}
 const TweetCard: React.FC<{ post: Post }> = ({ post }) => {
   return (
     <div key={post.id} className="border shadow-lg rounded-md p-4 space-y-3">
       <div>
         <div className="flex gap-2 text-primary">
-          <small className="font-semibold">{post.user.username}</small>
+          <small className="font-semibold">{post.user?.username}</small>
           <small className="text-gray-500">
-            {getRelativeTime(post.created_at)}
+            {getRelativeTime(post.created_at.toString())}
           </small>
         </div>
         <p className="text-sm">{post.content}</p>
       </div>
-      {post.image?.length > 0 && (
+      {post.image && (
         <div className="flex gap-2">
           <div className="relative w-1/2 h-auto">
             <img
