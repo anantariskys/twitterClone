@@ -17,6 +17,13 @@ const Sidebar = () => {
           <Icon icon={"material-symbols:person"} />
           <p>Profile</p>
         </Link>
+        <Link
+          to={"/search"}
+          className="flex items-center gap-2 text-xl font-semibold"
+        >
+          <Icon icon={"material-symbols:search"} />
+          <p>Search</p>
+        </Link>
       </div>
       <Form method="post">
         <input type="hidden" name="actionType" value={"logout"} />
